@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather-app</title>
+    <!-- <script src="/server.js"></script> -->
+    <script src="main.js"></script>
+    
+</head>
+
+<body>
+
+    
+    <h1>Väderapp</h1>
+    <h3>Api från weatherstack.com</h3>
+    <input action="/" method="post" id="search" placeholder="Stad">
+    <select id ="units"><option value="f">Fahrenheit</option><option value="m">Celsius</option>
+    </select>
+    <button onclick="getweather()">Hämta väder</button><br><br>
+        <img id="image" style= "border-radius: 5px;"/>
+        <div id="output"></div>  
+
+        <script src="main.js"></script>
+</body>
+</html>
+
+<script>
+function getweather(){
+
+    var city = document.getElementById("search").value;
+    var units = document.getElementById("units").value;
+    
+ 
+    fetch("http://api.weatherstack.com/current?access_key=c39ff8abe8005664cdfc8a8b6feda282&query="+city+"&units="+units )
+    .then(a => a.json())
+    .then(response => {
+        document.getElementById("image").src=response.current.weather_icons[0];
+        document.getElementById("output").innerHTML="<h1>" + response.current.weather_descriptions[0] + "</h1>Temperatur: " + response.current.temperature + "<br> Känns som: " + response.current.feelslike + "<br>UV index: " + response.current.uv_index+"<br>Luftfuktighet: "+response.current.humidity+"<br>Molntäcke: "+response.current.cloudcover;
+    })
+}
+
+</script>
